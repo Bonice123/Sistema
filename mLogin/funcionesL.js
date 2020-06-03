@@ -208,7 +208,7 @@ function permisos(datos,ecivil,usuarios,temas){
 }
 
 
-//Revisa si existe el usuario y aplica el tema 
+//Revisa si existe el usuario y aplica el tema ///
 $("#loginUsuario").keyup(function(){
     valor=$(this).val();
     $.ajax({
