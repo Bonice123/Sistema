@@ -2,7 +2,7 @@
 // Conexion mysqli
 include ("../conexion/conexionli.php");
 
-//Recibo valores con el metodo POST de la base de datso
+//Recibo valores con el metodo POST de la base 
 $id    	   = $_POST['id'];
 $contra    = $_POST['contra'];
 
