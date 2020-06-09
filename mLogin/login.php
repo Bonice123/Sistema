@@ -50,7 +50,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-success" id="modificar" disabled  >Modificar  contraseña</button>
+                            <button type="button" class="btn btn-success" id="modificar" disabled  >Modificar contraseña</button>
                             <button type="button" class="btn btn-success" id="generarcontra" onclick="newcontra(8)">Generar contraseña</button>
 
                         </div>

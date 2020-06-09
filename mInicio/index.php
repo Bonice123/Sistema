@@ -124,11 +124,43 @@ $fecha=date("Y-m-d");
                 </section>
                 
                 <section id="Listado-EC" class="animated  fadeIn contenedor" style="display:none;"></section>
-            </div>       
-
+            </div>  
         </div>
-
     </div>
+
+    <div class="modal fade" id="modalmenucontra" tabindex="-1" role="dialog" aria-labelledby="modalmenucontraLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalmenucontraLabel">Cambio de Contraseña</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="nueva_contra" class="col-form-label">Nueva contraseña:</label>
+                                    <input type="password" class="form-control" id="nueva_contra">
+                                </div>
+                                <div class="form-group">
+                                    <label for="verificar_contra" class="col-form-label">Confirmar contraseña:</label>
+                                    <input type="password" class="form-control" id="verificar_contra">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-danger col text-left" data-dismiss="modal">
+                            <i class='fa fa-ban'></i>Cancelar</button>
+                            <button type="button" class="btn btn-success  col text-center" id="actualizarcontra" disabled>
+                            <i class='fa fa-save'></i>Cambiar</button>
+                            <button type="button" class="btn btn-danger col text-right" id="generarcontra" onclick="generarMenuContra(8)">
+                            <i class='fa fa-save'></i>Generar</button>
+
+                        </div>                        
+                    </div>
+                </div>
+            </div>
 
     <!-- Modal de carga -->
         <?php include'../modales/modalCarga.php'; ?>

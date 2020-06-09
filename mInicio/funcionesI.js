@@ -16,6 +16,10 @@ function ocultarSecciones(){
     $("#guardar-EC").hide();
     $("#editar-EC").hide();
     $("#Listado-EC").hide();
+    //cambio contra
+    $("#Cambiocontra").hide();
+    $("#guardar-CC").hide();
+
     //USUARIOS
 }
 
@@ -64,9 +68,13 @@ function verEstadoCivil(){
     aplicarTema(idTema,'otro');      
 }
 
+
+
 function verUsuarios(){
-    ocultarSecciones();
+  ocultarSecciones();
 }
+
+
 
 
 
@@ -81,13 +89,13 @@ function abrirModalPDF(id,ruta,modulo) {
 }
 
 function aplicarTema(id,validador){
+  
     $.ajax({
         url:"datosTema.php",
         type:"POST",
         dateType:"json",
         data:{id},
         success:function(respuesta){
-
             var dataArray = JSON.parse(respuesta);
 
             var h_sidebar=dataArray.result.color_base_fuerte;
@@ -104,12 +112,12 @@ function aplicarTema(id,validador){
                 //alertify.success(actividad,2);
 
                 if(validador=='enlace'){
+                    accionPlay();
                     preloader(1,"Cambiando al tema "+tema);
                     actividad  ="Ha cambiado al tema "+tema;
                     var idUser=$("#inicioIdusuario").val();
 
                     $('#mnuColapsado').click();
-
                     log(actividad,idUser);
                     $("html, body").animate({ scrollTop: 0 }, 1000); 
                     return false; 
@@ -347,6 +355,8 @@ function salir(){
               $("#icoLogin").removeClass("fas fa-unlock");
               $("#icoLogin").addClass("fas fa-lock");
               $("#btnIngresar").attr("disabled","disabled");
+              $("#actualizarcontra").attr("disabled","disabled");
+              $("#actualizarcontra").attr("disabled","disabled");
               $("#loginUsuario").focus();
   
               var idUsuario=$("#inicioIdusuario").val();
@@ -459,3 +469,96 @@ $('#scroll').click(function(){
     $("html, body").animate({ scrollTop: 0 }, 600); 
     return false; 
 });
+
+///////Funcion para Cambiar contraseña dentro del modulo.
+function cambiar_contra() {
+    limpiarmodalmenu();
+    $("#actualizarcontra").attr("disabled","disabled");
+    $('#modalmenucontra').modal();
+        var id = $("#inicioIdusuario").val();
+        console.log(idUsuario);
+        $('#actualizarcontra').on("click",function (){        
+            var contra = $("#nueva_contra").val();
+            console.log(contra);
+            swal({
+                title: "¿Estas Seguro?",
+                text: "¿Deseas Cambiar la contraseña?",
+                type: "info",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Si deseo cambiarla",
+                cancelButtonText: "Cancelar Acción",
+                cancelButtonClass: "btn-outline-danger",
+                closeOnConfirm: false,
+                closeOnCancel: true,
+                showLoaderOnConfirm: true
+              }, function (isConfirm) {
+                if (isConfirm) {
+                setTimeout(function () {
+                    swal.close();
+                    $.ajax({
+                        url:"../mLogin/cambiar_contraseña.php",
+                        type:"POST",
+                        dateType:"html",
+                        data:{id,contra},
+
+                        success:function(respuesta){
+                         $("#modalmenucontra").modal('hide');
+                        limpiarmodalmenu();
+                        alertify.success("Cambio de contraseña Existoso", 4);
+                    
+                    },
+                    error:function(xhr,status){
+                        console.log("Error al actualizar la contraseña"); 
+                    },
+                });
+                }, 2000);}
+                else{
+                    limpiarmodalmenu();
+                    alertify.error(" Has cancelado el cambio de Contraseña",2);
+                    $("#actualizarcontra").attr("disabled","disabled");
+                    
+                }
+              });    
+    });
+}
+function generarMenuContra(numero) {
+    var caracteres = "abcdefghijkmnpqrtuvwxyzABCDEFGHIJKLMNPQRTUVWXYZ2346789";
+    var contraseña = "";
+    for (i=0; i<numero; i++) contraseña += caracteres.charAt(Math.floor(Math.random()*caracteres.length));
+    $("#nueva_contra").val(contraseña);
+    $("#verificar_contra").val(contraseña);
+    validarPassIndex();
+    swal("Nueva contraseña generada", " "+contraseña, "success");
+}
+
+//Validacion de contraseña al teclear
+$("#nueva_contra").keyup(function(){
+    validarPassIndex();
+});
+$("#verificar_contra").keyup(function(){
+    validarPassIndex();
+});
+
+//Validar contraseña
+function validarPassIndex() {
+    var pass = document.getElementById("nueva_contra").value;
+    var rePass = document.getElementById("verificar_contra").value;
+    if (pass.length > 7 && rePass.length > 7 && pass == rePass) {
+        $('#actualizarcontra').removeAttr("disabled");
+    } else {
+        $("#actualizarcontra").attr("disabled","disabled");
+    }
+}
+
+//Limpiar campos del modal
+function limpiarmodalmenu(params) {
+    $("#nueva_contra").val("");
+    $("#verificar_contra").val("");
+}
+//SonidoAlCambiarTema
+function accionPlay(){ 
+    var reproducir = new Audio();
+    reproducir.src= "../audios/Beep_Short_01_Sound_Effect_Mp3_102.mp3";
+    reproducir.play();
+ }
